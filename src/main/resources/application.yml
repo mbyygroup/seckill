@@ -1,0 +1,37 @@
+#添加服务运行参数server:server:server:
+server:
+  port: 8000
+  servlet:
+    context-path: /seckill
+    session:
+      timeout: 60s
+  tomcat:
+    max-threads: 100
+    uri-encoding: UTF-8
+
+#日志
+logging:
+  file: log/logging
+  level:
+    src.main.java: info
+
+
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/seckill?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: mbyy0506
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# pagehelper分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+#mtbatis配置  节点必须为独立的节点
+mybatis:
+  mapper-locations: classpath:com.itstyle.seckill.mapping/*.xml    #mapper映射xml文件的所有路径
+  type-aliases-package: com.itstyle.seckill.pojo    #实体类中的路径

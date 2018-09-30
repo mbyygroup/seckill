@@ -10,7 +10,7 @@
   <sql id="Base_Column_List">
     seckill_id, user_id, state, create_time
   </sql>
-  <delete id="deleteSuccess" parameterType="java.long.Long">
+  <delete id="deleteSuccess" parameterType="java.lang.Long">
     delete from success_killed
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </delete>

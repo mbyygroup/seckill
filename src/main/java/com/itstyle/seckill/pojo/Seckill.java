@@ -1,8 +1,11 @@
 package com.itstyle.seckill.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Seckill {
+public class Seckill implements Serializable {
+
+    private static final long serialVersionUID = -8219980885757910309L;
     private Long seckillId;
 
     private String name;

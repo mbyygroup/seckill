@@ -23,6 +23,54 @@ spring:
     username: root
     password: mbyy0506
     driver-class-name: com.mysql.cj.jdbc.Driver
+  #thymeleaf模板配置
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  mvc:
+    static-path-pattern: /**
+  #freemarker模板配置
+  freemarker:
+    template-loader-path: classpath:/static/template/
+    suffix: flt
+    enabled: true
+    cache: false
+    charset: UTF-8
+    content-type: text/html
+    allow-request-override: false
+    check-template-location: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: false
+  session:
+    store-type: redis
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1s
+        max-idle: 8
+        min-idle: 0
+    timeout: 30000s
+  # kafka
+  kafka:
+    bootstrap-servers: 192.168.1.180:9092
+    consumer:
+      group-id: 0
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      batch-size: 65536
+      buffer-memory: 524288
+
+#zookeeper address
+
 
 #pagehelper分页插件
 pagehelper:
@@ -34,5 +82,6 @@ pagehelper:
 #mtbatis配置  节点必须为独立的节点
 #mtbatis配置  节点必须为独立的节点
 mybatis:
-  mapper-locations: classpath:src/main/resources/mapping/*.xml    #mapper映射xml文件的所有路径
+  mapper-locations: classpath:/mapping/*Mapper.xml    #mapper映射xml文件的所有路径
   type-aliases-package: com.itstyle.seckill.pojo    #实体类中的路径
+

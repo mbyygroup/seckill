@@ -1,8 +1,10 @@
 package com.itstyle.seckill.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SuccessKilled extends SuccessKilledKey {
+public class SuccessKilled extends SuccessKilledKey implements Serializable {
+    private static final long serialVersionUID = -8323988269420485565L;
     private Byte state;
 
     private Date createTime;

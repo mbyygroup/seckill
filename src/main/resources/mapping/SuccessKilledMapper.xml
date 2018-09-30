@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itstyle.seckill.mapper.SuccessKilledMapper">
-  <resultMap id="BaseResultMap" type="com.itstyle.seckill.pojo.SuccessKilled">
-    <id column="seckill_id" jdbcType="BIGINT" property="seckillId" />
-    <id column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="state" jdbcType="TINYINT" property="state" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.itstyle.seckill.pojo.SuccessKilled">
+        <id column="seckill_id" jdbcType="BIGINT" property="seckillId"/>
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     seckill_id, user_id, state, create_time
   </sql>
-  <delete id="deleteSuccess" parameterType="java.lang.Long">
+    <delete id="deleteSuccess" parameterType="java.lang.Long">
     delete from success_killed
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.itstyle.seckill.pojo.SuccessKilled">
+    <insert id="insert" parameterType="com.itstyle.seckill.pojo.SuccessKilled">
     insert into success_killed (seckill_id, user_id, state,
       create_time)
     values (#{seckillId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{state,jdbcType=TINYINT},

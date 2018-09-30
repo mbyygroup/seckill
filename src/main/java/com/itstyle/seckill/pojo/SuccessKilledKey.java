@@ -1,6 +1,9 @@
 package com.itstyle.seckill.pojo;
 
-public class SuccessKilledKey {
+import java.io.Serializable;
+
+public class SuccessKilledKey implements Serializable {
+    private static final long serialVersionUID = 6924521979901595914L;
     private Long seckillId;
 
     private Long userId;

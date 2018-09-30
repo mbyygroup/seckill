@@ -16,40 +16,43 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/seckill")
 public class SeckillController {
-    private final static Logger LOGGER= LoggerFactory.getLogger(SeckillController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SeckillController.class);
 
     @Autowired
     private ISeckillService seckillService;
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         return "成功";
     }
 
-    @ApiOperation(value = "秒杀开始",nickname = "版权所属：芦望阳")
+    @ApiOperation(value = "秒杀开始", nickname = "版权所属：芦望阳")
     @GetMapping("/start")
-    public Result start(Long seckillId){
+    public Result start(Long seckillId) {
         seckillService.deleteCount(seckillId);
-        final  long killId=seckillId;
+        System.out.println("已删除秒杀商品记录");
+        final long killId = seckillId;
+        System.out.println("已获取商品id");
         LOGGER.info("开始秒杀");
-        for (int i=0;i<=1000;i++){
-            final long userId=i;
-            Runnable tsk=new Runnable() {
+        for (int i = 0; i <= 1000; i++) {
+            System.out.println("进入循环了");
+            final long userId = i;
+            Runnable tsk = new Runnable() {
                 @Override
                 public void run() {
-                    Result result=seckillService.startSeckill(killId,userId);
-                    if (result!=null){
-                        LOGGER.info("用户{}{}",userId,result.get("msg"));
-                    }else {
-                        LOGGER.info("用户{}{}",userId,"哎呦喂，人也太多了，请稍后！");
+                    Result result = seckillService.startSeckill(killId, userId);
+                    if (result != null) {
+                        LOGGER.info("用户{}{}", userId, result.get("msg"));
+                    } else {
+                        LOGGER.info("用户{}{}", userId, "哎呦喂，人也太多了，请稍后！");
                     }
                 }
             };
         }
         try {
             Thread.sleep(10000);
-            Long seckillCount=seckillService.getSeckillCount(seckillId);
-            LOGGER.info("一共秒杀出{}件商品",seckillCount);
+            Long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

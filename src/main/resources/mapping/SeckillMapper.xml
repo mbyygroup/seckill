@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itstyle.seckill.mapper.SeckillMapper">
-  <resultMap id="BaseResultMap" type="com.itstyle.seckill.pojo.Seckill">
-    <id column="seckill_id" jdbcType="BIGINT" property="seckillId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="number" jdbcType="INTEGER" property="number" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="version" jdbcType="INTEGER" property="version" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.itstyle.seckill.pojo.Seckill">
+        <id column="seckill_id" jdbcType="BIGINT" property="seckillId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     seckill_id, name, number, start_time, end_time, create_time, version
   </sql>
-  <select id="getSeckillCount" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="getSeckillCount" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select count(*)
     from success_killed where seckill_id=#{seckill_id,jdbcType=BIGINT}
   </select>
-  <select id="getSeckillList" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from seckill
-  </select>
-  <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from seckill
-    where seckill_id = #{seckillId,jdbcType=BIGINT}
-  </select>
+    <select id="getSeckillList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from seckill
+    </select>
+    <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from seckill
+        where seckill_id = #{seckillId,jdbcType=BIGINT}
+    </select>
     <select id="getSeckillNumber" resultType="java.lang.Long"></select>
     <update id="updateSeckillNumber" parameterType="java.lang.Long">
     update seckill
     set number =200
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </update>
-  <update id="reduceSeckillNumber" parameterType="java.lang.Long">
+    <update id="reduceSeckillNumber" parameterType="java.lang.Long">
     update seckill
     set number =number -1
     where seckill_id = #{seckillId,jdbcType=BIGINT}

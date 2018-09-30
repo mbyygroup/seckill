@@ -13,12 +13,8 @@
   <sql id="Base_Column_List">
     seckill_id, name, number, start_time, end_time, create_time, version
   </sql>
-  <select id="getSeckillCount" parameterType="java.long.Long" resultMap="BaseResultMap">
+  <select id="getSeckillCount" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select count(*)
-    from success_killed where seckill_id=#{seckill_id,jdbcType=BIGINT}
-  </select>
-  <select id="getSteckillNumber" parameterType="java.long.Long" resultMap="BaseResultMap">
-    select number
     from success_killed where seckill_id=#{seckill_id,jdbcType=BIGINT}
   </select>
   <select id="getSeckillList" resultMap="BaseResultMap">
@@ -32,12 +28,13 @@
     from seckill
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </select>
-  <update id="updateSeckillNumber" parameterType="java.long.Long">
+    <select id="getSeckillNumber" resultType="java.lang.Long"></select>
+    <update id="updateSeckillNumber" parameterType="java.lang.Long">
     update seckill
     set number =200
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </update>
-  <update id="reduceSeckillNumber" parameterType="java.long.Long">
+  <update id="reduceSeckillNumber" parameterType="java.lang.Long">
     update seckill
     set number =number -1
     where seckill_id = #{seckillId,jdbcType=BIGINT}

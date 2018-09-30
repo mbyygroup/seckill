@@ -24,7 +24,7 @@ spring:
     password: mbyy0506
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-# pagehelper分页插件
+#pagehelper分页插件
 pagehelper:
   helper-dialect: mysql
   reasonable: true

@@ -27,7 +27,7 @@ public class SeckillController {
     }
 
     @ApiOperation(value = "秒杀开始",nickname = "版权所属：芦望阳")
-    @PostMapping("/start")
+    @GetMapping("/start")
     public Result start(Long seckillId){
         seckillService.deleteCount(seckillId);
         final  long killId=seckillId;

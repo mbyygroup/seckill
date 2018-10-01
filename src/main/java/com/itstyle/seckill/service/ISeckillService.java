@@ -14,7 +14,9 @@ public interface ISeckillService {
     Long  getSeckillCount(Long seckillId);
     /*删除秒杀售卖商品记录*/
     void deleteCount(Long seckillId);
-    /*秒杀1*/
+    /*秒杀一*/
     Result startSeckill(Long seckillId,Long userId);
+    /*秒杀二 程序锁*/
+    Result startSeckillLock(Long seckillId,Long userId);
 
 }

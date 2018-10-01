@@ -70,7 +70,7 @@ spring:
       buffer-memory: 524288
 
 #zookeeper address
-
+zookeeper.address=192.168.1.180:2181
 
 #pagehelper分页插件
 pagehelper:
@@ -79,7 +79,6 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-#mtbatis配置  节点必须为独立的节点
 #mtbatis配置  节点必须为独立的节点
 mybatis:
   mapper-locations: classpath:/mapping/*Mapper.xml    #mapper映射xml文件的所有路径

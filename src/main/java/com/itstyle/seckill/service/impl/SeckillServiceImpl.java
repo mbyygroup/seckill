@@ -14,9 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service("seckillService")
 public class SeckillServiceImpl implements ISeckillService {
+
+    /*
+    *
+    * 创建互斥锁
+    * */
+    private Lock lock=new ReentrantLock(true);
 
     @Autowired
     private SuccessKilledMapper successKilledMapper;
@@ -66,5 +74,12 @@ public class SeckillServiceImpl implements ISeckillService {
         }else {
             return Result.error(SeckillStatEnum.END);
         }
+    }
+
+    @Override
+    @Transactional
+    public Result startSeckillLock(Long seckillId, Long userId) {
+
+        return Result.ok(SeckillStatEnum.SUCCESS);
     }
 }

@@ -12,11 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 @Api(tags = "秒杀")
 @RestController
 @RequestMapping("/seckill")
 public class SeckillController {
     private final static Logger LOGGER = LoggerFactory.getLogger(SeckillController.class);
+
+    private static int corePoolSize = Runtime.getRuntime().availableProcessors();
+    //创建线程池，调整队列数 拒绝服务
+    private static ThreadPoolExecutor executor = new ThreadPoolExecutor(corePoolSize, corePoolSize + 1, 101, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>(1000));
 
     @Autowired
     private ISeckillService seckillService;
@@ -26,16 +35,13 @@ public class SeckillController {
         return "成功";
     }
 
-    @ApiOperation(value = "秒杀开始", nickname = "版权所属：芦望阳")
+    @ApiOperation(value = "秒杀一开始", nickname = "版权所属：芦望阳")
     @GetMapping("/start")
     public Result start(Long seckillId) {
         seckillService.deleteCount(seckillId);
-        System.out.println("已删除秒杀商品记录");
         final long killId = seckillId;
-        System.out.println("已获取商品id");
-        LOGGER.info("开始秒杀");
+        LOGGER.info("开始秒杀一");
         for (int i = 0; i <= 1000; i++) {
-            System.out.println("进入循环了");
             final long userId = i;
             Runnable tsk = new Runnable() {
                 @Override
@@ -59,5 +65,31 @@ public class SeckillController {
         return Result.ok();
     }
 
+    @ApiOperation(value = "秒杀二", nickname = "版权所属：芦望阳")
+    @GetMapping("/startLock")
+    public Result startLock(Long seckillId) {
+        seckillService.deleteCount(seckillId);
+        final long killId = seckillId;
+        LOGGER.info("开始秒杀二（正常运行）");
+        for (int i = 0; i < 1000; i++) {
+            final long userId = i;
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+//                    Result result = seckillService.startSeckill(killId, userId);
+//                    LOGGER.info("用户{}{}", userId, result.get("msg"));
+                }
+            };
+            executor.execute(task);
+        }
+        try {
+            Thread.sleep(10000);
+            Long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
 
 }

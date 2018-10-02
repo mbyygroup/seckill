@@ -18,5 +18,9 @@ public interface ISeckillService {
     Result startSeckill(Long seckillId,Long userId);
     /*秒杀二 程序锁*/
     Result startSeckillLock(Long seckillId,Long userId);
+    /*秒杀二 程序锁AOP*/
+    Result startSeckillAopLock(Long seckillId,Long userId);
+    /*秒杀二 数据库悲观锁*/
+    Result startSeckillDBPCC_ONE(Long seckillId,Long userId);
 
 }

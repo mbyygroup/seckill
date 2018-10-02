@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller;
+package com.itstyle.seckill.controller.config;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

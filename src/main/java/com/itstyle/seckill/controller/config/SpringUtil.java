@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller;
+package com.itstyle.seckill.controller.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

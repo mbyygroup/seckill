@@ -70,7 +70,7 @@ spring:
       buffer-memory: 524288
 
 #zookeeper address
-zookeeper.address=192.168.1.180:2181
+#zookeeper.address=192.168.1.180:2181
 
 #pagehelper分页插件
 pagehelper:

@@ -1,5 +1,7 @@
 package com.itstyle.seckill.service.impl;
 
+import com.itstyle.seckill.aop.ServiceLimit;
+import com.itstyle.seckill.aop.Servicelock;
 import com.itstyle.seckill.mapper.SeckillMapper;
 import com.itstyle.seckill.mapper.SuccessKilledMapper;
 import com.itstyle.seckill.pojo.Result;
@@ -79,7 +81,66 @@ public class SeckillServiceImpl implements ISeckillService {
     @Override
     @Transactional
     public Result startSeckillLock(Long seckillId, Long userId) {
-
+        try{
+            lock.lock();
+            Long number=seckillMapper.getSeckillNumber(seckillId);
+            if(number>0){
+                seckillMapper.reduceSeckillNumber(seckillId);
+                SuccessKilled killed=new SuccessKilled();
+                killed.setSeckillId(seckillId);
+                killed.setUserId(userId);
+                killed.setState(Byte.parseByte(number+""));
+                killed.setCreateTime(new Timestamp(new Date().getTime()));
+                successKilledMapper.insert(killed);
+            }else{
+                return Result.error(SeckillStatEnum.END);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
         return Result.ok(SeckillStatEnum.SUCCESS);
     }
+
+    @Override
+    @Servicelock
+    @Transactional
+    public Result startSeckillAopLock(Long seckillId, Long userId) {
+        long num=seckillMapper.getSeckillNumber(seckillId);
+        if (num>0){
+            seckillMapper.reduceSeckillNumber(seckillId);
+            SuccessKilled killed=new SuccessKilled();
+            killed.setSeckillId(seckillId);
+            killed.setUserId(userId);
+            killed.setState(Byte.parseByte(num+""));
+            killed.setCreateTime(new Timestamp(new Date().getTime()));
+            successKilledMapper.insert(killed);
+        }else {
+            return Result.error(SeckillStatEnum.END);
+        }
+        return Result.ok(SeckillStatEnum.SUCCESS);
+    }
+
+    @Override
+    @ServiceLimit
+    @Transactional
+    public Result startSeckillDBPCC_ONE(Long seckillId, Long userId) {
+        //单用户抢购一件商品或者多件都没有问题
+        long num=seckillMapper.getSeckillNumber(seckillId);
+        if (num>0){
+            seckillMapper.reduceSeckillNumber(seckillId);
+            SuccessKilled killed=new SuccessKilled();
+            killed.setSeckillId(seckillId);
+            killed.setUserId(userId);
+            killed.setState(Byte.parseByte(num+""));
+            killed.setCreateTime(new Timestamp(new Date().getTime()));
+            successKilledMapper.insert(killed);
+            return Result.ok(SeckillStatEnum.SUCCESS);
+        }else {
+            return Result.error(SeckillStatEnum.END);
+        }
+    }
+
+
 }

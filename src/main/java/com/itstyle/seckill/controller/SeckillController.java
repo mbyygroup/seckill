@@ -65,8 +65,8 @@ public class SeckillController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "秒杀二", nickname = "版权所属：芦望阳")
-    @GetMapping("/startLock")
+    @ApiOperation(value = "秒杀二(程序锁)", nickname = "版权所属：芦望阳")
+    @PostMapping("/startLock")
     public Result startLock(Long seckillId) {
         seckillService.deleteCount(seckillId);
         final long killId = seckillId;
@@ -76,8 +76,8 @@ public class SeckillController {
             Runnable task = new Runnable() {
                 @Override
                 public void run() {
-//                    Result result = seckillService.startSeckill(killId, userId);
-//                    LOGGER.info("用户{}{}", userId, result.get("msg"));
+                    Result result = seckillService.startSeckill(killId, userId);
+                    LOGGER.info("用户{}{}", userId, result.get("msg"));
                 }
             };
             executor.execute(task);
@@ -92,4 +92,30 @@ public class SeckillController {
         return Result.ok();
     }
 
+    @ApiOperation(value = "秒杀三（AOP程序锁）",nickname ="版权所属：芦望阳" )
+    @PostMapping("/startAopLock")
+    public Result startAopLock(Long seckillId){
+        seckillService.deleteCount(seckillId);
+        final long killId=seckillId;
+        LOGGER.info("开始秒杀三（正常）");
+        for (int i=0;i<1000;i++){
+            final long userId=i;
+            Runnable runnable=new Runnable() {
+                @Override
+                public void run() {
+                    Result result=seckillService.startSeckillAopLock(seckillId,userId);
+                    LOGGER.info("用户{}{}",userId,result.get("msg"));
+                }
+            };
+            executor.execute(runnable);
+        }
+        try {
+            Thread.sleep(1000);
+            Long seckillCount=seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品",seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
 }

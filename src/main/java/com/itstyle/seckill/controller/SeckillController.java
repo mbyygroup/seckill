@@ -1,6 +1,7 @@
 package com.itstyle.seckill.controller;
 
 import com.itstyle.seckill.pojo.Result;
+import com.itstyle.seckill.pojo.SuccessKilled;
 import com.itstyle.seckill.service.ISeckillService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -92,30 +93,116 @@ public class SeckillController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "秒杀三（AOP程序锁）",nickname ="版权所属：芦望阳" )
+    @ApiOperation(value = "秒杀三（AOP程序锁）", nickname = "版权所属：芦望阳")
     @PostMapping("/startAopLock")
-    public Result startAopLock(Long seckillId){
+    public Result startAopLock(Long seckillId) {
         seckillService.deleteCount(seckillId);
-        final long killId=seckillId;
+        final long killId = seckillId;
         LOGGER.info("开始秒杀三（正常）");
-        for (int i=0;i<1000;i++){
-            final long userId=i;
-            Runnable runnable=new Runnable() {
+        for (int i = 0; i < 1000; i++) {
+            final long userId = i;
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Result result=seckillService.startSeckillAopLock(seckillId,userId);
-                    LOGGER.info("用户{}{}",userId,result.get("msg"));
+                    Result result = seckillService.startSeckillAopLock(seckillId, userId);
+                    LOGGER.info("用户{}{}", userId, result.get("msg"));
                 }
             };
             executor.execute(runnable);
         }
         try {
             Thread.sleep(1000);
-            Long seckillCount=seckillService.getSeckillCount(seckillId);
-            LOGGER.info("一共秒杀出{}件商品",seckillCount);
+            Long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return Result.ok();
     }
+
+    @ApiOperation(value = "秒杀四（数据库悲观锁）", nickname = "版权所有：芦望阳")
+    @PostMapping("/startDBPCC_ONE")
+    public Result startDBPCC_ONE(long seckillId) {
+        seckillService.deleteCount(seckillId);
+        final long killId = seckillId;
+        LOGGER.info("开始秒杀四（正常）");
+        for (int i = 0; i < 1000; i++) {
+            final long userId = i;
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                    Result result = seckillService.startSeckillDBPCC_ONE(killId, userId);
+                    LOGGER.info("用户:{}{}", userId, result.get("msg"));
+                }
+            };
+            executor.execute(task);
+        }
+        try {
+            Thread.sleep(10000);
+            Long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "秒杀五（数据库悲观锁）", nickname = "版权所有：芦望阳")
+    @PostMapping("/startDBPCC_TWO")
+    public Result startDBPCC_TWO(long seckillId) {
+        seckillService.deleteCount(seckillId);
+        final long killId = seckillId;
+        LOGGER.info("开始秒杀五（正常，数据库锁最优实现）");
+        for (int i = 0; i < 1000; i++) {
+            final long userId = i;
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                    Result result = seckillService.startSeckillDBPCC_TWO(killId, userId);
+                    LOGGER.info("用户:{}{}", userId, result.get("msg"));
+                }
+            };
+            executor.execute(task);
+        }
+        try {
+            Thread.sleep(10000);
+            Long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "秒杀六（数据库悲观锁）", nickname = "版权所有：芦望阳")
+    @PostMapping("/startDBOCC")
+    public Result startDBOCC(long seckillId) {
+        seckillService.deleteCount(seckillId);
+        final long killId = seckillId;
+        LOGGER.info("开始秒杀六（正常，数据库锁最优实现）");
+        for (int i = 0; i < 1000; i++) {
+            final long userId = i;
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                    //这里使用的乐观锁、可以自定义抢购数量、如果配置的抢购人数比较少、比如120:100(人数:商品) 会出现少买的情况
+                    //用户同时进入会出现更新失败的情况
+                    Result result = seckillService.startSeckillDBOCC(killId,userId,Long.valueOf(1));
+                    LOGGER.info("用户:{}{}", userId, result.get("msg"));
+                }
+            };
+            executor.execute(task);
+        }
+        try {
+            Thread.sleep(10000);
+            Long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
+
+
+
 }

@@ -142,5 +142,55 @@ public class SeckillServiceImpl implements ISeckillService {
         }
     }
 
+    /*
+    * SHOW STATUS LIKE 'innodb_row_lock%';
+    * 如果发现锁争用比较严重，如InnoDB_row_lock_waits和InnoDB_row_lock_time_avg的值比较高
+    * */
+    @Override
+    @Transactional
+    public Result startSeckillDBPCC_TWO(Long seckillId, Long userId) {
+        //单用户抢购单个商品没有问题，但抢购多件商品可能有问题
+        Long count= seckillMapper.reduceSeckillNumber(seckillId);
+        if (count>0){
+            SuccessKilled killed=new SuccessKilled();
+            killed.setSeckillId(seckillId);
+            killed.setUserId(userId);
+            killed.setState(Byte.parseByte(0+""));
+            killed.setCreateTime(new Timestamp(new Date().getTime()));
+            successKilledMapper.insert(killed);
+            return Result.ok(SeckillStatEnum.SUCCESS);
+        }else {
+            return Result.error(SeckillStatEnum.END);
+        }
+    }
+
+    @Override
+    @Transactional
+    public Result startSeckillDBOCC(Long seckillId, Long userId, Long number) {
+        Seckill seckill=seckillMapper.getById(seckillId);
+        if (seckill.getNumber()>=number){   //剩余的数量应该大于秒杀的数量
+            //乐观锁
+            Long count=seckillMapper.reduceSeckillNumber(seckillId);
+            if (count>0){
+                SuccessKilled killed=new SuccessKilled();
+                killed.setSeckillId(seckillId);
+                killed.setUserId(userId);
+                killed.setState(Byte.parseByte(0+""));
+                killed.setCreateTime(new Timestamp(new Date().getTime()));
+                successKilledMapper.insert(killed);
+                return Result.ok(SeckillStatEnum.SUCCESS);
+            }else {
+                return Result.error(SeckillStatEnum.END);
+            }
+        }else {
+            return Result.error(SeckillStatEnum.END);
+        }
+    }
+
+    @Override
+    public Result startSeckillTemplate(Long seckillId, Long userId, Long number) {
+        return null;
+    }
+
 
 }

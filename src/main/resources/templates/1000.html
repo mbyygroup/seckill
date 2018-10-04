@@ -32,7 +32,7 @@
                     $this.addClass('active').blur();
                     var panel = $this.attr("href");
                     $(panel).show();
-                    return fasle;  //告诉浏览器  不要纸箱这个链接
+                    return true;  //告诉浏览器  不要执行这个链接
                 })//end click
                 $(".tabs li:first a").click()   //web 浏览器，单击第一个标签吧
             })//end ready
@@ -114,56 +114,53 @@
     <!--放大镜-->
     <div id="leftbox">
         <div id="showbox">
-            <img src="goods/images/shopdetail/img01.png" width="400" height="550"/>
-            <img src="goods/images/shopdetail/img02.png" width="400" height="550"/>
-            <img src="goods/images/shopdetail/img03.png" width="400" height="550"/>
-            <img src="goods/images/shopdetail/img04.png" width="400" height="550"/>
-            <img src="goods/images/shopdetail/img05.png" width="400" height="400"/>
-            <img src="goods/images/shopdetail/img01.png" width="400" height="400"/>
-            <div>   <!--展示图片盒子-->
-                <div id="showsum"></div>   <!--展示图片里面-->
-                <p class="showpage">
-                    <a href="javascript:void(0);" id="showlast"></a>
-                    <a href="javascript:void(0);" id="shownext"></a>
-                </p>
-            </div>
-            <!--中间-->
-            <div class="centerbox">
-                <p class="imgname">1000元秒杀iphone8</p>
-                <p class="Aprice">价格：<samp>￥89.00</samp></p>
-                <p class="price">促销价：<samp>￥49.00</samp></p>
-                <p class="youhui">店铺优惠：<samp>购物满两件打八折</samp></p>
-                <p class="kefu">客服：</p>
-                <ul>
-                    <li class="kuanshi">款式：</li>
-                    <li class="now shopimg"><a href="#" title="熊猫套装"><img src="goods/images/shopdetail/kuanshi01.jpg"
-                                                                          width="45"></a></li>
-                    <li class="shopimg"><a href="#" title="铁塔套装"><img src="goods/images/shopdetail/kuanshi02.jpg"
-                                                                      width="45"></a></li>
-                    <li class="shopimg"><a href="#" title="创意胡子"><img src="goods/images/shopdetail/kuanshi03.jpg"
-                                                                      width="45"></a></li>
-                    <li class="shopimg"><a href="#" title="四色小猫"><img src="goods/images/shopdetail/kuanshi04.jpg"
-                                                                      width="45"></a></li>
-                </ul>
-                <div class="clear"></div>
-                <p class="chima">尺码：</p>
-                <p class="buy"><a href="#" id="firstbuy">立即购买</a><a href="#">加入购物车</a></p>
-                <div class="clear"></div>
-                <div class="fenx"><a href="#"><img src="goods/images/shopdetail/tell07.png"></a></div>
-                <p class="fuwu">服务承诺：</p>
-                <p class="pay">支付方式：</p>
-            </div>
-            <!--右边-->
-            <div class="rightbox">
-                <p class="name">——热卖商品</p>
-                <img src="goods/images/shopdetail/reimai02.jpg" width="130" height="180">
-                <p>￥58元</p>
-                <img src="goods/images/shopdetail/reimai01.jpg" width="130" height="180">
-                <p>￥58元</p>
-                <img src="goods/images/shopdetail/reimai03.jpg" width="130" height="180">
-                <p>￥58元</p>
-            </div>
-        </div>
+            <img src="goods/images/shopdetail/img01.png" width="400" height="550" />
+            <img src="goods/images/shopdetail/img02.png" width="400" height="550" />
+            <img src="goods/images/shopdetail/img03.png" width="400" height="550" />
+            <img src="goods/images/shopdetail/img04.png" width="400" height="550" />
+            <img src="goods/images/shopdetail/img05.png" width="400" height="400" />
+            <img src="goods/images/shopdetail/img01.png" width="400" height="400" />
+        </div><!--展示图片盒子-->
+        <div id="showsum"></div><!--展示图片里边-->
+        <p class="showpage">
+            <a href="javascript:void(0);" id="showlast"> < </a>
+            <a href="javascript:void(0);" id="shownext"> > </a>
+        </p>
+    </div>
+    <!----中间----->
+    <div class="centerbox">
+        <!----这里以生成商品名称为例、生产环境中商品属性不止于此----->
+        <p class="imgname">1000元秒杀iphone8</p>
+        <p class="Aprice">价格：<samp>￥89.00</samp></p>
+        <p class="price">促销价：<samp>￥49.00</samp></p>
+        <p class="youhui">店铺优惠：<samp>购物满两件打八折</samp></p>
+        <p class="kefu">客服：</p>
+        <ul>
+            <li class="kuanshi">款式：</li>
+            <li class="now shopimg"><a href="#" title="熊猫套装"><img src="goods/images/shopdetail/kuanshi01.jpg" width="45"></a></li>
+            <li class="shopimg"><a href="#" title="铁塔套装"><img src="goods/images/shopdetail/kuanshi02.jpg" width="45"></a></li>
+            <li class="shopimg"><a href="#" title="创意胡子"><img src="goods/images/shopdetail/kuanshi03.jpg" width="45"></a></li>
+            <li class="shopimg"><a href="#" title="四色小猫"><img src="goods/images/shopdetail/kuanshi04.jpg" width="45"></a></li>
+        </ul>
+        <div class="clear"></div>
+        <p class="chima">尺码：</p>
+        <p class="buy"><a href="#" id="firstbuy">立即购买</a><a href="#">加入购物车</a></p>
+        <div class="clear"></div>
+        <div class="fenx"><a href="#"><img src="goods/images/shopdetail/tell07.png"></a></div>
+        <p class="fuwu">服务承诺：</p>
+        <p class="pay">支付方式：</p>
+    </div>
+    <!-----右边------->
+    <div class="rightbox">
+        <p class="name">——热卖商品</p>
+        <img src="goods/images/shopdetail/reimai02.jpg" width="130" height="180">
+        <p>￥58元</p>
+        <img src="goods/images/shopdetail/reimai01.jpg" width="130" height="180">
+        <p>￥58元</p>
+        <img src="goods/images/shopdetail/reimai03.jpg" width="130" height="180">
+        <p>￥58元</p>
+    </div>
+</div>
         <!-----商品详情部分结束------->
         <!-----商品详情评价部分------->
         <div class="evaluate">

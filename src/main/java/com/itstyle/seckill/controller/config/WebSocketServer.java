@@ -87,6 +87,27 @@ public class WebSocketServer {
         this.session.getBasicRemote().sendText(message);
     }
 
+    /*
+    *
+    *
+    * 群发自定义消息
+    * */
+    public static void sendInfo(String message,@PathParam("userId") String userId){
+        log.info("推送消息到窗口"+userId+"，推送内容:"+message);
+        for (WebSocketServer item:webSocketSet){
+            try {
+                //这里可以设定只推送到这个userId的，为null则全部推送
+                if (null==null){
+                    item.sendMessage(message);
+                }else if (item.userId.equals(userId)){
+                    item.sendMessage(message);
+                }
+            } catch (IOException e) {
+                continue;
+            }
+        }
+    }
+
     public static synchronized int getOnlineCount(){
         return onlineCount;
     }

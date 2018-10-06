@@ -5,37 +5,23 @@ package com.itstyle.seckill.common.algorithm;
 * */
 public class AlgorithmVs {
     public static void main(String[] args) {
-        testQuick();
+        time(new SelectionSort());
+        time(new QuickSort());
+        time(new BubbleSort());
+        time(new InsertSort());
+        time(new MergeSort());
+        time(new HeapSort());
+        time(new ShellSort());
     }
-    /*
-    * 测试快速排序耗费的时间
-    * */
-    public static void testQuick(){
+    static void time(father f){
         int[] list=new int[10000];
-        for (int i=0;i<10000;i++){
+        for (int i=0;i<list.length;i++){
             list[i] = (int) (Math.random()*100000);
         }
-
-        //快速排序
         long start=System.currentTimeMillis();
-        QuickSort.quickSort(list,0,list.length-1);
+        f.Sort(list);
         long end=System.currentTimeMillis();
-        System.out.println("快速排序耗费的时间:"+(end-start));
-        display(list);
-    }
-
-    /**
-     * 遍历打印前10个数
-     */
-    public static void display(int[] list) {
-        System.out.println("********排序之后的前10个数start********");
-        if (list != null && list.length > 0) {
-            for (int i = 0; i < 10; i++) {
-                System.out.print(list[i] + " ");
-            }
-            System.out.println("");
-        }
-        System.out.println("********排序之后的前10个数end**********");
-        System.out.println("");
+        System.out.println(f.getName()+"耗费的时间:"+(end-start));
+        f.display(list);
     }
 }

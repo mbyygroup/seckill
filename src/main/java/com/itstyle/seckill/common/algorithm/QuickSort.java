@@ -3,7 +3,7 @@ package com.itstyle.seckill.common.algorithm;
 /*
 * 快速排序
 * */
-public class QuickSort {
+public class QuickSort extends father{
     /*
     * 通过一趟排序把将要排序的数组分割为独立的两部分，其中一部分的所有数据
     * 都比另外一部分的所有数据小然后再按照此方法对两部分数据分别进行快速排
@@ -11,21 +11,18 @@ public class QuickSort {
     *
     *
     * */
-    public static void main(String[] args) {
-        int[] list={6,1,3,7,9,4,5,10,8};
-        System.out.println("快速排序");
-        System.out.println("排序前");
-        display(list);
-        System.out.println("排序后");
+
+    public void Sort(int[] list){
+        //先定义好排序的名字
+        setName("快速排序");
         quickSort(list,0,list.length-1);
-        display(list);
     }
 
     /*
     *
     * 快速排序算法
     * */
-    public static void quickSort(int[] list,int left,int right){
+    private void quickSort(int[] list,int left,int right){
         if (left<right){
             //分割数组，找到分割点
             int point=partition(list,left,right);
@@ -41,7 +38,7 @@ public class QuickSort {
     *
     * 分割数组，找到分割点
     * */
-    public static int partition(int[] list,int left,int right){
+    private int partition(int[] list,int left,int right){
         //用数组的第一个元素作为基准数
         int first=list[left];
         while (left<right){
@@ -61,28 +58,5 @@ public class QuickSort {
         return left;
     }
 
-    /*
-    *
-    * 交换数组中两个元素的位置
-    * */
-    public static void swap(int[] list,int left,int right){
-        int temp;
-        if (list!=null&&list.length>0){
-            temp=list[left];
-            list[left]=list[right];
-            list[right]=temp;
-        }
-    }
-
-    /*
-    *
-    * 遍历打印
-    * */
-    public static void display(int[] list){
-        for (int i:list){
-            System.out.print(i+" ");
-        }
-        System.out.println("");
-    }
 
 }

@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SuccessKilledMapper {
     int deleteSuccess(Long seckill_id);
     int insert(SuccessKilled record);
-    
+
 }

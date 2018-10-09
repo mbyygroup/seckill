@@ -15,9 +15,11 @@
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="com.itstyle.seckill.pojo.SuccessKilled">
-    insert into success_killed (seckill_id, user_id, state,
-      create_time)
-    values (#{seckillId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{state,jdbcType=TINYINT},
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into success_killed (seckill_id, user_id, state)
+    values (#{seckillId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{state,jdbcType=TINYINT})
   </insert>
+    <select id="getSeckillCount" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select count(user_id)
+    from success_killed where seckill_id=#{seckillId,jdbcType=BIGINT}
+  </select>
 </mapper>

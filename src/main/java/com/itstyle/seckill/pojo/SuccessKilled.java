@@ -5,15 +5,15 @@ import java.util.Date;
 
 public class SuccessKilled extends SuccessKilledKey implements Serializable {
     private static final long serialVersionUID = -8323988269420485565L;
-    private Byte state;
+    private Long state;
 
     private Date createTime;
 
-    public Byte getState() {
+    public Long getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(long state) {
         this.state = state;
     }
 

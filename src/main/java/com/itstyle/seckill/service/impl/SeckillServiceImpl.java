@@ -46,10 +46,11 @@ public class SeckillServiceImpl implements ISeckillService {
 
     @Override
     public Long getSeckillCount(Long seckillId) {
-        return seckillMapper.getSeckillCount(seckillId);
+        return successKilledMapper.getSeckillCount(seckillId);
     }
 
     @Override
+    @Transactional
     public void deleteCount(Long seckillId) {
         successKilledMapper.deleteSuccess(seckillId);
         seckillMapper.updateSeckillNumber(seckillId);
@@ -57,6 +58,7 @@ public class SeckillServiceImpl implements ISeckillService {
 
 
     @Override
+    @ServiceLimit
     @Transactional
     public Result startSeckill(Long seckillId, Long userId) {
         //校验库存
@@ -69,7 +71,6 @@ public class SeckillServiceImpl implements ISeckillService {
             killed.setSeckillId(seckillId);
             killed.setUserId(userId);
             killed.setState((byte) 0);
-            killed.setCreateTime(new Timestamp(new Date().getTime()));
             successKilledMapper.insert(killed);
             //支付
             return Result.ok(SeckillStatEnum.SUCCESS);
@@ -89,8 +90,7 @@ public class SeckillServiceImpl implements ISeckillService {
                 SuccessKilled killed=new SuccessKilled();
                 killed.setSeckillId(seckillId);
                 killed.setUserId(userId);
-                killed.setState(Byte.parseByte(number+""));
-                killed.setCreateTime(new Timestamp(new Date().getTime()));
+                killed.setState(number);
                 successKilledMapper.insert(killed);
             }else{
                 return Result.error(SeckillStatEnum.END);
@@ -113,8 +113,7 @@ public class SeckillServiceImpl implements ISeckillService {
             SuccessKilled killed=new SuccessKilled();
             killed.setSeckillId(seckillId);
             killed.setUserId(userId);
-            killed.setState(Byte.parseByte(num+""));
-            killed.setCreateTime(new Timestamp(new Date().getTime()));
+            killed.setState(num);
             successKilledMapper.insert(killed);
         }else {
             return Result.error(SeckillStatEnum.END);
@@ -123,7 +122,7 @@ public class SeckillServiceImpl implements ISeckillService {
     }
 
     @Override
-    @ServiceLimit
+//    @ServiceLimit   限流注解，可能会出现少买，自行调整
     @Transactional
     public Result startSeckillDBPCC_ONE(Long seckillId, Long userId) {
         //单用户抢购一件商品或者多件都没有问题
@@ -133,8 +132,7 @@ public class SeckillServiceImpl implements ISeckillService {
             SuccessKilled killed=new SuccessKilled();
             killed.setSeckillId(seckillId);
             killed.setUserId(userId);
-            killed.setState(Byte.parseByte(num+""));
-            killed.setCreateTime(new Timestamp(new Date().getTime()));
+            killed.setState(num);
             successKilledMapper.insert(killed);
             return Result.ok(SeckillStatEnum.SUCCESS);
         }else {
@@ -155,8 +153,7 @@ public class SeckillServiceImpl implements ISeckillService {
             SuccessKilled killed=new SuccessKilled();
             killed.setSeckillId(seckillId);
             killed.setUserId(userId);
-            killed.setState(Byte.parseByte(0+""));
-            killed.setCreateTime(new Timestamp(new Date().getTime()));
+            killed.setState(0);
             successKilledMapper.insert(killed);
             return Result.ok(SeckillStatEnum.SUCCESS);
         }else {
@@ -175,8 +172,7 @@ public class SeckillServiceImpl implements ISeckillService {
                 SuccessKilled killed=new SuccessKilled();
                 killed.setSeckillId(seckillId);
                 killed.setUserId(userId);
-                killed.setState(Byte.parseByte(0+""));
-                killed.setCreateTime(new Timestamp(new Date().getTime()));
+                killed.setState(0);
                 successKilledMapper.insert(killed);
                 return Result.ok(SeckillStatEnum.SUCCESS);
             }else {

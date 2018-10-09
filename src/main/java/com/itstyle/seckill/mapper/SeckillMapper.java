@@ -9,7 +9,6 @@ import java.util.List;
 public interface SeckillMapper {
     Seckill getById(Long seckillId);            //得到商品
     List<Seckill> getSeckillList();                 //得到全部商品列表
-    Long getSeckillCount(Long seckillId);               //得到某个商品出现次数
     Long getSeckillNumber(Long seckillId);               //检验库存
     Long updateSeckillNumber(Long seckillId);          //更新库存
     Long reduceSeckillNumber(Long seckillId);          //减少库存

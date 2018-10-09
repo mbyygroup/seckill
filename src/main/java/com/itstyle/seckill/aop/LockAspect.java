@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 @Scope
 @Aspect
-@Order(1)          //order越小越先执行
+@Order(1)         //order越小越先执行
 public class LockAspect {
     private static Lock lock=new ReentrantLock(true);  //互斥锁
 

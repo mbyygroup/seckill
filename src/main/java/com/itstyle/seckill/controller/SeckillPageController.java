@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "秒杀商品")
+@Api(tags = "秒杀商品页")
 @RestController
 @RequestMapping("/seckillPage")
 public class SeckillPageController {

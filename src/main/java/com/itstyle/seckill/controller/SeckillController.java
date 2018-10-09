@@ -3,6 +3,10 @@ package com.itstyle.seckill.controller;
 import com.itstyle.seckill.pojo.Result;
 import com.itstyle.seckill.pojo.SuccessKilled;
 import com.itstyle.seckill.service.ISeckillService;
+import com.itstyle.seckill.queue.jvm.SeckillQueue;
+import com.itstyle.seckill.queue.disruptor.SeckillEvent;
+import com.itstyle.seckill.queue.disruptor.DisruptorUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -37,7 +41,7 @@ public class SeckillController {
     }
 
     @ApiOperation(value = "秒杀一开始", nickname = "版权所属：芦望阳")
-    @GetMapping("/start")
+    @PostMapping("/start")
     public Result start(Long seckillId) {
         seckillService.deleteCount(seckillId);
         final long killId = seckillId;
@@ -55,9 +59,10 @@ public class SeckillController {
                     }
                 }
             };
+            executor.execute(tsk);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             Long seckillCount = seckillService.getSeckillCount(seckillId);
             LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
@@ -84,7 +89,7 @@ public class SeckillController {
             executor.execute(task);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             Long seckillCount = seckillService.getSeckillCount(seckillId);
             LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
@@ -104,7 +109,7 @@ public class SeckillController {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Result result = seckillService.startSeckillAopLock(seckillId, userId);
+                    Result result = seckillService.startSeckillAopLock(killId, userId);
                     LOGGER.info("用户{}{}", userId, result.get("msg"));
                 }
             };
@@ -138,7 +143,7 @@ public class SeckillController {
             executor.execute(task);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             Long seckillCount = seckillService.getSeckillCount(seckillId);
             LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
@@ -165,7 +170,7 @@ public class SeckillController {
             executor.execute(task);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             Long seckillCount = seckillService.getSeckillCount(seckillId);
             LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
@@ -174,7 +179,7 @@ public class SeckillController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "秒杀六（数据库悲观锁）", nickname = "版权所有：芦望阳")
+    @ApiOperation(value = "秒杀六（数据库乐观锁）", nickname = "版权所有：芦望阳")
     @PostMapping("/startDBOCC")
     public Result startDBOCC(long seckillId) {
         seckillService.deleteCount(seckillId);
@@ -187,14 +192,14 @@ public class SeckillController {
                 public void run() {
                     //这里使用的乐观锁、可以自定义抢购数量、如果配置的抢购人数比较少、比如120:100(人数:商品) 会出现少买的情况
                     //用户同时进入会出现更新失败的情况
-                    Result result = seckillService.startSeckillDBOCC(killId,userId,Long.valueOf(1));
+                    Result result = seckillService.startSeckillDBOCC(killId, userId, Long.valueOf(1));
                     LOGGER.info("用户:{}{}", userId, result.get("msg"));
                 }
             };
             executor.execute(task);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             Long seckillCount = seckillService.getSeckillCount(seckillId);
             LOGGER.info("一共秒杀出{}件商品", seckillCount);
         } catch (InterruptedException e) {
@@ -202,7 +207,6 @@ public class SeckillController {
         }
         return Result.ok();
     }
-
 
 
 }

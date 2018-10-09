@@ -82,7 +82,7 @@ public class SeckillController {
             Runnable task = new Runnable() {
                 @Override
                 public void run() {
-                    Result result = seckillService.startSeckill(killId, userId);
+                    Result result = seckillService.startSeckillLock(killId, userId);
                     LOGGER.info("用户{}{}", userId, result.get("msg"));
                 }
             };

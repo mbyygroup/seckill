@@ -122,7 +122,7 @@ public class SeckillServiceImpl implements ISeckillService {
     }
 
     @Override
-//    @ServiceLimit   限流注解，可能会出现少买，自行调整
+    @ServiceLimit   //限流注解，可能会出现少买，自行调整
     @Transactional
     public Result startSeckillDBPCC_ONE(Long seckillId, Long userId) {
         //单用户抢购一件商品或者多件都没有问题
@@ -153,7 +153,7 @@ public class SeckillServiceImpl implements ISeckillService {
             SuccessKilled killed=new SuccessKilled();
             killed.setSeckillId(seckillId);
             killed.setUserId(userId);
-            killed.setState(0);
+            killed.setState(count);
             successKilledMapper.insert(killed);
             return Result.ok(SeckillStatEnum.SUCCESS);
         }else {
@@ -172,7 +172,7 @@ public class SeckillServiceImpl implements ISeckillService {
                 SuccessKilled killed=new SuccessKilled();
                 killed.setSeckillId(seckillId);
                 killed.setUserId(userId);
-                killed.setState(0);
+                killed.setState(count);
                 successKilledMapper.insert(killed);
                 return Result.ok(SeckillStatEnum.SUCCESS);
             }else {

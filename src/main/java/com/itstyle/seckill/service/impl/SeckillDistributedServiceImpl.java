@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class SeckillDistributedServiceImpl implements ISeckillDistributedService {
     @Override
     @Transactional
-    public Result startSeckilRedisLock(Long seckillId, Long userId) {
+    public Result startSeckilRedisLock(long seckillId, long userId) {
         boolean res=false;
         return null;
     }
 
     @Override
-    public Result startSeckilZkLock(Long seckillId, Long userId) {
+    public Result startSeckilZkLock(long seckillId, long userId) {
         return null;
     }
 }

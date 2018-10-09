@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SuccessKilledMapper {
-    int deleteSuccess(Long seckill_id);
+    int deleteSuccess(long seckill_id);
     int insert(SuccessKilled record);
-    Long getSeckillCount(Long seckillId);               //得到某个商品出现次数
+    long getSeckillCount(long seckillId);               //得到某个商品出现次数
 
 }

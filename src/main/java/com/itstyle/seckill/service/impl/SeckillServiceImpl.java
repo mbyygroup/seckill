@@ -39,19 +39,19 @@ public class SeckillServiceImpl implements ISeckillService {
     }
 
     @Override
-    public Seckill getById(Long seckillId) {
+    public Seckill getById(long seckillId) {
         return seckillMapper.getById(seckillId);
     }
 
 
     @Override
-    public Long getSeckillCount(Long seckillId) {
+    public long getSeckillCount(long seckillId) {
         return successKilledMapper.getSeckillCount(seckillId);
     }
 
     @Override
     @Transactional
-    public void deleteCount(Long seckillId) {
+    public void deleteCount(long seckillId) {
         successKilledMapper.deleteSuccess(seckillId);
         seckillMapper.updateSeckillNumber(seckillId);
     }
@@ -60,9 +60,9 @@ public class SeckillServiceImpl implements ISeckillService {
     @Override
     @ServiceLimit
     @Transactional
-    public Result startSeckill(Long seckillId, Long userId) {
+    public Result startSeckill(long seckillId, long userId) {
         //校验库存
-        Long number=seckillMapper.getSeckillNumber(seckillId);
+        long number=seckillMapper.getSeckillNumber(seckillId);
         if(number>0){
             //扣库存
             seckillMapper.reduceSeckillNumber(seckillId);
@@ -81,10 +81,10 @@ public class SeckillServiceImpl implements ISeckillService {
 
     @Override
     @Transactional
-    public Result startSeckillLock(Long seckillId, Long userId) {
+    public Result startSeckillLock(long seckillId, long userId) {
         try{
             lock.lock();
-            Long number=seckillMapper.getSeckillNumber(seckillId);
+            long number=seckillMapper.getSeckillNumber(seckillId);
             if(number>0){
                 seckillMapper.reduceSeckillNumber(seckillId);
                 SuccessKilled killed=new SuccessKilled();
@@ -106,7 +106,7 @@ public class SeckillServiceImpl implements ISeckillService {
     @Override
     @Servicelock
     @Transactional
-    public Result startSeckillAopLock(Long seckillId, Long userId) {
+    public Result startSeckillAopLock(long seckillId, long userId) {
         long num=seckillMapper.getSeckillNumber(seckillId);
         if (num>0){
             seckillMapper.reduceSeckillNumber(seckillId);
@@ -124,7 +124,7 @@ public class SeckillServiceImpl implements ISeckillService {
     @Override
     @ServiceLimit   //限流注解，可能会出现少买，自行调整
     @Transactional
-    public Result startSeckillDBPCC_ONE(Long seckillId, Long userId) {
+    public Result startSeckillDBPCC_ONE(long seckillId, long userId) {
         //单用户抢购一件商品或者多件都没有问题
         long num=seckillMapper.getSeckillNumber(seckillId);
         if (num>0){
@@ -146,9 +146,9 @@ public class SeckillServiceImpl implements ISeckillService {
     * */
     @Override
     @Transactional
-    public Result startSeckillDBPCC_TWO(Long seckillId, Long userId) {
+    public Result startSeckillDBPCC_TWO(long seckillId, long userId) {
         //单用户抢购单个商品没有问题，但抢购多件商品可能有问题
-        Long count= seckillMapper.reduceSeckillNumber(seckillId);
+        long count= seckillMapper.reduceSeckillNumber(seckillId);
         if (count>0){
             SuccessKilled killed=new SuccessKilled();
             killed.setSeckillId(seckillId);
@@ -163,11 +163,11 @@ public class SeckillServiceImpl implements ISeckillService {
 
     @Override
     @Transactional
-    public Result startSeckillDBOCC(Long seckillId, Long userId, Long number) {
+    public Result startSeckillDBOCC(long seckillId, long userId, long number) {
         Seckill seckill=seckillMapper.getById(seckillId);
         if (seckill.getNumber()>=number){   //剩余的数量应该大于秒杀的数量
             //乐观锁
-            Long count=seckillMapper.reduceSeckillNumber(seckillId);
+            long count=seckillMapper.reduceSeckillNumber(seckillId);
             if (count>0){
                 SuccessKilled killed=new SuccessKilled();
                 killed.setSeckillId(seckillId);
@@ -184,7 +184,7 @@ public class SeckillServiceImpl implements ISeckillService {
     }
 
     @Override
-    public Result startSeckillTemplate(Long seckillId, Long userId, Long number) {
+    public Result startSeckillTemplate(long seckillId, long userId, long number) {
         return null;
     }
 

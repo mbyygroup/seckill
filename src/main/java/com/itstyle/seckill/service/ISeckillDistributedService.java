@@ -8,6 +8,6 @@ public interface ISeckillDistributedService {
     * @Param seckillId 秒杀商品ID
     * @Param userId 用户ID
     * */
-    Result startSeckilRedisLock(Long seckillId,Long userId);
-    Result startSeckilZkLock(Long seckillId,Long userId);
+    Result startSeckilRedisLock(long seckillId,long userId);
+    Result startSeckilZkLock(long seckillId,long userId);
 }

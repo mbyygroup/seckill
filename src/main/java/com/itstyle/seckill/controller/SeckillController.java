@@ -184,7 +184,7 @@ public class SeckillController {
     public Result startDBOCC(long seckillId) {
         seckillService.deleteCount(seckillId);
         final long killId = seckillId;
-        LOGGER.info("开始秒杀六（正常，数据库锁最优实现）");
+        LOGGER.info("开始秒杀六（数据库乐观锁）");
         for (int i = 0; i < 1000; i++) {
             final long userId = i;
             Runnable task = new Runnable() {
@@ -206,7 +206,6 @@ public class SeckillController {
             e.printStackTrace();
         }
         return Result.ok();
+
     }
-
-
 }

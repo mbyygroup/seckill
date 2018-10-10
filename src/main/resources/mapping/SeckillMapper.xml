@@ -27,6 +27,9 @@
     <select id="getSeckillNumber" resultType="java.lang.Long">
         select number from seckill where seckill_id=#{seckillId,jdbcType=BIGINT}
     </select>
+    <select id="getSeckillNumber_PLock" resultType="java.lang.Long">
+        select number from seckill where seckill_id=#{seckillId,jdbcType=BIGINT} for update
+    </select>
     <update id="updateSeckillNumber" parameterType="java.lang.Long">
     update seckill
     set number =100
@@ -36,5 +39,16 @@
     update seckill
     set number =number -1
     where seckill_id = #{seckillId,jdbcType=BIGINT}
+  </update>
+    <update id="reduceSeckillNumber_PLock" parameterType="java.lang.Long">
+    update seckill
+    set number =number -1
+    where seckill_id = #{seckillId,jdbcType=BIGINT} and number >0
+  </update>
+    <update id="reduceSeckillNumber_OLock" parameterType="java.lang.Long">
+    update seckill
+    set number = number- #{number,jdbcType=BIGINT},
+    version = version+1
+    where seckill_id = #{seckillId,jdbcType=BIGINT} and version= #{version,jdbcType=BIGINT}
   </update>
 </mapper>

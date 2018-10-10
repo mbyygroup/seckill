@@ -126,7 +126,7 @@ public class SeckillServiceImpl implements ISeckillService {
     @Transactional
     public Result startSeckillDBPCC_ONE(long seckillId, long userId) {
         //单用户抢购一件商品或者多件都没有问题
-        long num=seckillMapper.getSeckillNumber(seckillId);
+        long num=seckillMapper.getSeckillNumber_PLock(seckillId);
         if (num>0){
             seckillMapper.reduceSeckillNumber(seckillId);
             SuccessKilled killed=new SuccessKilled();
@@ -148,7 +148,7 @@ public class SeckillServiceImpl implements ISeckillService {
     @Transactional
     public Result startSeckillDBPCC_TWO(long seckillId, long userId) {
         //单用户抢购单个商品没有问题，但抢购多件商品可能有问题
-        long count= seckillMapper.reduceSeckillNumber(seckillId);
+        long count= seckillMapper.reduceSeckillNumber_PLock(seckillId);
         if (count>0){
             SuccessKilled killed=new SuccessKilled();
             killed.setSeckillId(seckillId);
@@ -167,7 +167,7 @@ public class SeckillServiceImpl implements ISeckillService {
         Seckill seckill=seckillMapper.getById(seckillId);
         if (seckill.getNumber()>=number){   //剩余的数量应该大于秒杀的数量
             //乐观锁
-            long count=seckillMapper.reduceSeckillNumber(seckillId);
+            long count=seckillMapper.reduceSeckillNumber_OLock(number,seckillId,seckill.getVersion());
             if (count>0){
                 SuccessKilled killed=new SuccessKilled();
                 killed.setSeckillId(seckillId);

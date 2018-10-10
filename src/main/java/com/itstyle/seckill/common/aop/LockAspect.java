@@ -1,4 +1,4 @@
-package com.itstyle.seckill.aop;
+package com.itstyle.seckill.common.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,21 +20,23 @@ import java.util.concurrent.locks.ReentrantLock;
 @Aspect
 @Order(1)         //order越小越先执行
 public class LockAspect {
-    private static Lock lock=new ReentrantLock(true);  //互斥锁
+    private static  Lock lock = new ReentrantLock(true);//互斥锁 参数默认false，不公平锁
 
-    //Service层切入点 用于记录错误日志
-    @Pointcut("@annotation(com.itstyle.seckill.aop.Servicelock)")
-    public void lockAspect(){ }
+    //Service层切点     用于记录错误日志
+    @Pointcut("@annotation(com.itstyle.seckill.common.aop.Servicelock)")
+    public void lockAspect() {
+
+    }
 
     @Around("lockAspect()")
-    public Object around(ProceedingJoinPoint joinPoint){
+    public  Object around(ProceedingJoinPoint joinPoint) {
         lock.lock();
-        Object obj=null;
+        Object obj = null;
         try {
-            obj=joinPoint.proceed();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }finally {
+            obj = joinPoint.proceed();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally{
             lock.unlock();
         }
         return obj;

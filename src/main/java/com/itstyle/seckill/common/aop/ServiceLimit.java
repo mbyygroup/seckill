@@ -1,15 +1,14 @@
-package com.itstyle.seckill.aop;
+package com.itstyle.seckill.common.aop;
 
 import java.lang.annotation.*;
 
 /*
-* 自定义注解
-* 同步锁
+*
+* 自定义注解  限流
 * */
-
 @Target({ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public  @interface Servicelock {
+public  @interface ServiceLimit {
     String description()  default "";
 }

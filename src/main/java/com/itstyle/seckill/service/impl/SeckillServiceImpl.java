@@ -1,7 +1,7 @@
 package com.itstyle.seckill.service.impl;
 
-import com.itstyle.seckill.aop.ServiceLimit;
-import com.itstyle.seckill.aop.Servicelock;
+import com.itstyle.seckill.common.aop.ServiceLimit;
+import com.itstyle.seckill.common.aop.Servicelock;
 import com.itstyle.seckill.mapper.SeckillMapper;
 import com.itstyle.seckill.mapper.SuccessKilledMapper;
 import com.itstyle.seckill.pojo.Result;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

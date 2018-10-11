@@ -13,6 +13,7 @@ public class RedissLockUtil {
     private static RedissonClient redissonClient;
 
     public void setRedissonClient(RedissonClient locker){
+
         redissonClient=locker;
     }
 

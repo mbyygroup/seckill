@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.print.attribute.standard.Destination;
+import javax.jms.Destination;
+
 
 @Component
 public class ActiveMQSender {

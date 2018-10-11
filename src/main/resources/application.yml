@@ -52,10 +52,13 @@ spring:
     jedis:
       pool:
         max-active: 8
-        max-wait: -1s
+        max-wait: 1s
         max-idle: 8
         min-idle: 0
     timeout: 30000s
+
+
+
   # kafka
   kafka:
     bootstrap-servers: 192.168.1.180:9092
@@ -68,9 +71,11 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       batch-size: 65536
       buffer-memory: 524288
+  #zookeeper address
+  data:
+    solr:
+      zk-host: 192.168.1.89:2181
 
-#zookeeper address
-#zookeeper.address=192.168.1.180:2181
 
 #pagehelper分页插件
 pagehelper:
@@ -83,4 +88,6 @@ pagehelper:
 mybatis:
   mapper-locations: classpath:/mapping/*Mapper.xml    #mapper映射xml文件的所有路径
   type-aliases-package: com.itstyle.seckill.pojo    #实体类中的路径
+
+
 

@@ -28,7 +28,7 @@ public class KafkaConsumer {
             WebSocketServer.sendInfo(array[0].toString(),"秒杀成功");
         }else {
             WebSocketServer.sendInfo(array[0].toString(),"秒杀失败");
-            redisUtil.cacheValue(array[0],"ok");
+            redisUtil.cacheValue(array[0],"ok");    //秒杀失败
         }
     }
 

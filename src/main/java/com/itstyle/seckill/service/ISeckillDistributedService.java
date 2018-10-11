@@ -10,4 +10,10 @@ public interface ISeckillDistributedService {
     * */
     Result startSeckilRedisLock(long seckillId,long userId);
     Result startSeckilZkLock(long seckillId,long userId);
+
+    /*
+    *
+    * 秒杀多个商品
+    * */
+    Result startSeckillLock(long seckillId,long userId,long number);
 }

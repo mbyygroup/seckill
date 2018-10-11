@@ -69,6 +69,7 @@ public class RedissLockUtil {
     }
 
     public static boolean tryLock(String lockKey,TimeUnit unit,int waitTime,int leaseTime){
+        System.out.println(lockKey);
         RLock lock=redissonClient.getLock(lockKey);
         try {
             return lock.tryLock(waitTime,leaseTime,unit);

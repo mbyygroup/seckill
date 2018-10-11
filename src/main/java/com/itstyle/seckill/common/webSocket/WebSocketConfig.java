@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller.config;
+package com.itstyle.seckill.common.webSocket;
 
 
 import org.springframework.context.annotation.Bean;

@@ -137,7 +137,9 @@ public class SeckillController {
                 @Override
                 public void run() {
                     Result result = seckillService.startSeckillDBPCC_ONE(killId, userId);
-                    LOGGER.info("用户:{}{}", userId, result.get("msg"));
+//                    LOGGER.info("用户:{}{}", userId, result.get("msg"));
+                    //经过调试可以发现msg数据但是这里日志打印却出不来，先注释掉，
+                    // 以后有时间解决
                 }
             };
             executor.execute(task);
@@ -206,6 +208,44 @@ public class SeckillController {
             e.printStackTrace();
         }
         return Result.ok();
-
     }
+
+    @ApiOperation(value = "秒杀七（进程内队列）",nickname ="版权所有：芦望阳" )
+    @PostMapping("/startQueue")
+    public Result startQueue(long seckillId){
+        seckillService.deleteCount(seckillId);
+        final long killId = seckillId;
+        LOGGER.info("开始秒杀七（正常）");
+        for (int i = 0; i < 1000; i++) {
+            final long userId = i;
+            Runnable task = new Runnable() {
+                @Override
+                public void run() {
+                   SuccessKilled kill=new SuccessKilled();
+                   kill.setUserId(userId);
+                   kill.setSeckillId(killId);
+                   try {
+                       Boolean flag=SeckillQueue.getMailQueue().produce(kill);
+                        if (flag){
+                            LOGGER.info("用户:{}{}",kill.getUserId(),"秒杀成功");
+                        }else {
+                            LOGGER.info("用户:{}{}",userId,"秒杀失败");
+                        }
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                }
+            };
+            executor.execute(task);
+        }
+        try {
+            Thread.sleep(1000);
+            long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
+
 }

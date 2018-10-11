@@ -1,9 +1,9 @@
 package com.itstyle.seckill.queue.activemq;
 
-import com.itstyle.seckill.controller.config.RedisUtil;
-import com.itstyle.seckill.controller.config.WebSocketServer;
+import com.itstyle.seckill.common.webSocket.WebSocketServer;
+import com.itstyle.seckill.common.redis.RedisUtil;
 import com.itstyle.seckill.pojo.Result;
-import com.itstyle.seckill.pojo.SeckillStatEnum;
+import com.itstyle.seckill.common.enums.SeckillStatEnum;
 import com.itstyle.seckill.service.ISeckillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;

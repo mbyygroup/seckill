@@ -6,7 +6,7 @@ import com.itstyle.seckill.mapper.SeckillMapper;
 import com.itstyle.seckill.mapper.SuccessKilledMapper;
 import com.itstyle.seckill.pojo.Result;
 import com.itstyle.seckill.pojo.Seckill;
-import com.itstyle.seckill.pojo.SeckillStatEnum;
+import com.itstyle.seckill.common.enums.SeckillStatEnum;
 import com.itstyle.seckill.pojo.SuccessKilled;
 import com.itstyle.seckill.service.ISeckillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +120,7 @@ public class SeckillServiceImpl implements ISeckillService {
     }
 
     @Override
-    @ServiceLimit   //限流注解，可能会出现少买，自行调整
+//    @ServiceLimit   //限流注解，可能会出现少买，自行调整
     @Transactional
     public Result startSeckillDBPCC_ONE(long seckillId, long userId) {
         //单用户抢购一件商品或者多件都没有问题

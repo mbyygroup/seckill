@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller.config;
+package com.itstyle.seckill.common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.itstyle.seckill.queue.disruptor;
 
 
-import com.itstyle.seckill.controller.config.SpringUtil;
+import com.itstyle.seckill.common.config.SpringUtil;
 import com.itstyle.seckill.service.ISeckillService;
 import com.lmax.disruptor.EventHandler;
 

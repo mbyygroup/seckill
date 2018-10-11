@@ -2,8 +2,8 @@ package com.itstyle.seckill.queue.jvm;
 
 import com.itstyle.seckill.pojo.SuccessKilled;
 
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /*
 *
@@ -13,7 +13,7 @@ public class SeckillQueue {
     //队列大小
     static final int QUEUE_MAX_SIZE = 100;
     /*用于多线程间下单的队列*/
-    static BlockingDeque<SuccessKilled> blockingDeque=new LinkedBlockingDeque<SuccessKilled>(QUEUE_MAX_SIZE);
+    static BlockingQueue<SuccessKilled> blockingQueue=new LinkedBlockingQueue<SuccessKilled>(QUEUE_MAX_SIZE);
 
     /*
     * 私有的默认构造子，保证外界无法直接实例化
@@ -43,7 +43,7 @@ public class SeckillQueue {
      * offer(e, time, unit) 设定等待的时间，如果在指定时间内还不能往队列中插入数据则返回false，插入成功返回true。
      */
     public Boolean produce(SuccessKilled killed) throws InterruptedException {
-        return blockingDeque.offer(killed);
+        return blockingQueue.offer(killed);
     }
 
     /*
@@ -51,9 +51,9 @@ public class SeckillQueue {
     * 消费队列
     * */
     public SuccessKilled consume() throws InterruptedException {
-        return blockingDeque.take();
+        return blockingQueue.take();
     }
 
     //获取队列大小
-    public int size(){return blockingDeque.size();}
+    public int size(){return blockingQueue.size();}
 }

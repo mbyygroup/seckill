@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller.config;
+package com.itstyle.seckill.common.webSocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +25,8 @@ public class WebSocketServer {
     //接受userId
     private String userId="";
     /*
-    * 连接成功调用的方法
-    * */
+     * 连接成功调用的方法
+     * */
     @OnOpen
     public void onOpen(Session session, @PathParam("userId") String userId){
         this.session=session;
@@ -42,9 +42,9 @@ public class WebSocketServer {
     }
 
     /*
-    *
-    * 连接关闭调用的方法
-    * */
+     *
+     * 连接关闭调用的方法
+     * */
     @OnClose
     public void onClose(){
         webSocketSet.remove(this);       //从set中删除
@@ -53,9 +53,9 @@ public class WebSocketServer {
     }
 
     /*
-    * 收到客户端消息后调用的方法
-    * @Param message 客户端发送过来的消息
-    * */
+     * 收到客户端消息后调用的方法
+     * @Param message 客户端发送过来的消息
+     * */
     @OnMessage
     public void onMessage(String message,Session session){
         log.info("收到来自窗口"+userId+"的信息"+message);
@@ -70,9 +70,9 @@ public class WebSocketServer {
     }
 
     /*
-    * @param session
-    * @param error
-    * */
+     * @param session
+     * @param error
+     * */
     @OnError
     public void onError(Session session,Throwable error){
         log.info("发生错误");
@@ -80,18 +80,18 @@ public class WebSocketServer {
     }
 
     /*
-    *
-    * 实现服务器主动推送
-    * */
+     *
+     * 实现服务器主动推送
+     * */
     public void sendMessage(String message) throws IOException{
         this.session.getBasicRemote().sendText(message);
     }
 
     /*
-    *
-    *
-    * 群发自定义消息
-    * */
+     *
+     *
+     * 群发自定义消息
+     * */
     public static void sendInfo(String message,@PathParam("userId") String userId){
         log.info("推送消息到窗口"+userId+"，推送内容:"+message);
         for (WebSocketServer item:webSocketSet){

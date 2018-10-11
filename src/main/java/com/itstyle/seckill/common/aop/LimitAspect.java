@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope
 @Aspect
-public class LimitAspect {
+public class LimitAspect {  //存在日志找不到msg问题
     ////每秒只发出5个令牌，此处是单进程服务的限流,内部采用令牌捅算法实现
     private static   RateLimiter rateLimiter = RateLimiter.create(5.0);
 

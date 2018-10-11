@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller.config;
+package com.itstyle.seckill.common.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -22,9 +22,9 @@ import java.lang.reflect.Method;
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
     /*
-    *
-    * 自定义key(消费队列)
-    * */
+     *
+     * 自定义key(消费队列)
+     * */
     @Bean
     public KeyGenerator keyGenerator(){
         return new KeyGenerator() {
@@ -42,9 +42,9 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     /*
-    *
-    * 缓存管理器
-    * */
+     *
+     * 缓存管理器
+     * */
 //    @SuppressWarnings("rawtypes")
 //    @Bean
 //    public CacheManager cacheManager(RedisTemplate redisTemplate){
@@ -52,9 +52,9 @@ public class RedisConfig extends CachingConfigurerSupport {
 //    }
 
     /*
-    *
-    * 序列化java对象
-    * */
+     *
+     * 序列化java对象
+     * */
     @SuppressWarnings({"rawtypes","unchecked"})
     @Bean
     public RedisTemplate<Object,Object> redisTemplate(RedisConnectionFactory connectionFactory){
@@ -72,3 +72,4 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
 }
+

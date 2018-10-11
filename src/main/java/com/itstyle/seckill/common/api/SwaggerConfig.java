@@ -1,4 +1,4 @@
-package com.itstyle.seckill.controller;
+package com.itstyle.seckill.common.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

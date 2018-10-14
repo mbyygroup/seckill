@@ -2,6 +2,7 @@ package com.itstyle.seckill.service.impl;
 
 import com.itstyle.seckill.common.enums.SeckillStatEnum;
 import com.itstyle.seckill.distributedlock.redis.RedissLockUtil;
+import com.itstyle.seckill.distributedlock.zookeeper.ZkLockUtil;
 import com.itstyle.seckill.mapper.SeckillMapper;
 import com.itstyle.seckill.mapper.SuccessKilledMapper;
 import com.itstyle.seckill.pojo.Result;
@@ -56,8 +57,34 @@ public class SeckillDistributedServiceImpl implements ISeckillDistributedService
     }
 
     @Override
+    @Transactional
     public Result startSeckilZkLock(long seckillId, long userId) {
-        return null;
+        boolean res=false;
+        try {
+            res= ZkLockUtil.acquire(3,TimeUnit.SECONDS);
+            if (res){
+                long number=seckillMapper.getSeckillNumber(seckillId);
+                if (number>0){
+                    SuccessKilled killed = new SuccessKilled();
+                    killed.setSeckillId(seckillId);
+                    killed.setUserId(userId);
+                    killed.setState(0);
+                    successKilledMapper.insert(killed);
+                    seckillMapper.reduceSeckillNumber_PLock(seckillId);
+                }else {
+                    return Result.error(SeckillStatEnum.END);
+                }
+            }else {
+                return Result.error(SeckillStatEnum.MUCH);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (res){
+                ZkLockUtil.release();     //释放锁
+            }
+        }
+        return Result.ok(SeckillStatEnum.SUCCESS);
     }
 
     @Override

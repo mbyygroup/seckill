@@ -73,6 +73,33 @@ public class SeckillDistributed {
         return Result.ok();
     }
 
+    @ApiOperation(value = "秒杀二（zookeeper分布式锁）",nickname = "版权所属：芦望阳")
+    @PostMapping("/startZkLock")
+    public Result startZkLock(long seckillId){
+        seckillService.deleteCount(seckillId);
+        final long killId = seckillId;
+        LOGGER.info("开始秒杀二");
+        for (int i = 0; i <= 1000; i++) {
+            final long userId = i;
+            Runnable tsk = new Runnable() {
+                @Override
+                public void run() {
+                    Result result=seckillDistributedService.startSeckilZkLock(killId,userId);
+                    LOGGER.info("用户:{}{}",userId,result.get("msg"));
+                }
+            };
+            executor.execute(tsk);
+        }
+        try {
+            Thread.sleep(1000);
+            long seckillCount = seckillService.getSeckillCount(seckillId);
+            LOGGER.info("一共秒杀出{}件商品", seckillCount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Result.ok();
+    }
+
     @ApiOperation(value = "秒杀五(ActiveMQ分布式队列)", nickname = "版权所属：芦望阳")
     @PostMapping("/startActiveMQQueue")
     public Result start(long seckillId) {

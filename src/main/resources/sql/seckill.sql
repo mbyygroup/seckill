@@ -3,9 +3,9 @@
 如果使用8.0之前的mysql，可以删除mysql的依赖并在配置文件里面改驱动为com..mysql.jdbc.Driver
 */
 
-DROP TABLE IF EXCEPT 'seckill';
+DROP TABLE IF EXISTS `seckill`;
 
-CREATE TABLE 'seckill'(
+CREATE TABLE `seckill`(
  `seckill_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '商品库存id',
   `name` varchar(120) NOT NULL COMMENT '商品名称',
   `number` int(11) NOT NULL COMMENT '库存数量',
